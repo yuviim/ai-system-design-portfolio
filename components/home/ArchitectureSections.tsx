@@ -1,61 +1,23 @@
-const referenceArchitectures = [
-  {
-    title: "Enterprise AI Gateway",
-    type: "Control Plane",
-    description:
-      "Routing, policy enforcement, observability, model access, and audit for enterprise AI systems.",
-  },
-  {
-    title: "Federated Query",
-    type: "Data Access",
-    description:
-      "A reference pattern for querying across warehouses, lakehouses, SaaS apps, and operational systems.",
-  },
-  {
-    title: "Enterprise RAG",
-    type: "AI System",
-    description:
-      "Secure retrieval architecture with identity, permissions, vector search, and governed context delivery.",
-  },
-  {
-    title: "Lakehouse Architecture",
-    type: "Data Platform",
-    description:
-      "Open table formats, object storage, query engines, catalogs, and analytical execution patterns.",
-  },
-  {
-    title: "Identity & Policy",
-    type: "Trust Boundary",
-    description:
-      "How authentication, authorization, role mapping, and policy decisions shape AI platform behavior.",
-  },
-  {
-    title: "MPP & Compute",
-    type: "Execution Engine",
-    description:
-      "Distributed execution, data partitioning, query planning, node-level processing, and workload scale.",
-  },
-];
-
-const libraryTopics = [
-  "MPP",
-  "Columnar Storage",
-  "Query Optimizer",
-  "Vector Search",
-  "MCP",
-  "Agent Skills",
-  "In-Memory Processing",
-  "AI Sovereignty",
-  "Policy Engine",
-  "Data Residency",
-];
+import { getFeaturedArchitectures } from "@/lib/content";
 
 export function ArchitectureSections() {
+  const referenceArchitectures = getFeaturedArchitectures(6);
+
+  const libraryTopics = [
+    "MPP",
+    "Columnar Storage",
+    "Query Optimizer",
+    "Vector Search",
+    "MCP",
+    "Agent Skills",
+    "In-Memory Processing",
+    "AI Sovereignty",
+    "Policy Engine",
+    "Data Residency",
+  ];
+
   return (
-    <section
-      id="library"
-      className="border-b border-slate-200 bg-white"
-    >
+    <section id="library" className="border-b border-slate-200 bg-white">
       <div className="mx-auto max-w-[1500px] px-8 py-16">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -68,10 +30,7 @@ export function ArchitectureSections() {
             </h2>
           </div>
 
-          <a
-            href="#"
-            className="text-sm font-black text-blue-600 hover:text-blue-700"
-          >
+          <a href="/library" className="text-sm font-black text-blue-600">
             View full library →
           </a>
         </div>
@@ -79,7 +38,7 @@ export function ArchitectureSections() {
         <div className="grid gap-5 lg:grid-cols-3">
           {referenceArchitectures.map((item, index) => (
             <article
-              key={item.title}
+              key={item.slug}
               className="group rounded-3xl border border-slate-200 bg-[#fbfdff] p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_24px_70px_rgba(37,99,235,0.08)]"
             >
               <div className="mb-7 flex items-center justify-between">
@@ -88,7 +47,7 @@ export function ArchitectureSections() {
                 </div>
 
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-500 ring-1 ring-slate-200">
-                  {item.type}
+                  {item.tags[0]}
                 </span>
               </div>
 
@@ -105,9 +64,12 @@ export function ArchitectureSections() {
                   Architecture
                 </span>
 
-                <span className="text-sm font-black text-blue-600 transition group-hover:translate-x-1">
+                <a
+                  href={`/library/${item.slug}`}
+                  className="text-sm font-black text-blue-600 transition group-hover:translate-x-1"
+                >
                   Explore →
-                </span>
+                </a>
               </div>
             </article>
           ))}
@@ -120,11 +82,12 @@ export function ArchitectureSections() {
                 Browse Concepts
               </h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Short, focused explanations that connect to deeper architecture notes and reference implementations.
+                Short, focused explanations that connect to deeper architecture
+                notes and reference implementations.
               </p>
             </div>
 
-            <a href="#" className="text-sm font-black text-blue-600">
+            <a href="/library" className="text-sm font-black text-blue-600">
               View concepts →
             </a>
           </div>
@@ -133,7 +96,7 @@ export function ArchitectureSections() {
             {libraryTopics.map((topic) => (
               <a
                 key={topic}
-                href="#"
+                href="/library"
                 className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:border-blue-200 hover:text-blue-600"
               >
                 {topic}

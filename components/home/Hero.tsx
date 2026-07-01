@@ -1,203 +1,180 @@
 import {
+  BookOpen,
+  Bot,
+  BrainCircuit,
   Boxes,
   Database,
-  FileText,
   Layers3,
   PlayCircle,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
-import { stats } from "@/data/stats";
 
-const engineeringWork = [
+const architectureSteps = [
   {
-    title: "NexusIQ",
-    badge: "Featured",
-    subtitle: "Enterprise AI reference implementation",
-    description:
-      "Federated query, agent skills, governed AI access, and interactive analytics.",
-    cta: "Open Implementation →",
-    icon: Boxes,
-    color: "blue",
+    title: "User",
+    text: "Applications • APIs • Humans",
+    icon: Sparkles,
   },
   {
-    title: "Modern AI Platform",
-    badge: "Series",
-    subtitle: "Architecture series",
-    description:
-      "Blueprints for enterprise AI, data platforms, RAG, federation, and observability.",
-    cta: "Browse Series →",
-    icon: Layers3,
-    color: "green",
+    title: "AI Gateway",
+    text: "Routing • Authentication • Guardrails",
+    icon: BrainCircuit,
   },
   {
-    title: "Know Exasol",
-    badge: "Learning",
-    subtitle: "Technical education",
-    description:
-      "Deep technical series explaining MPP, columnar storage, optimizer, and execution.",
-    cta: "Start Learning →",
-    icon: Database,
-    color: "purple",
-  },
-  {
-    title: "Sovereign AI",
-    badge: "Research",
-    subtitle: "Architecture research",
-    description:
-      "Trust boundaries, identity, policy engines, AI gateways, and secure RAG.",
-    cta: "Read Research →",
+    title: "Policy Engine",
+    text: "Governance • Audit • Compliance",
     icon: ShieldCheck,
-    color: "orange",
+  },
+  {
+    title: "AI Agent Runtime",
+    text: "Planning • Tools • Orchestration",
+    icon: Bot,
+  },
+  {
+    title: "Knowledge & Skills",
+    text: "MCP • Enterprise APIs • RAG",
+    icon: BookOpen,
+  },
+  {
+    title: "Federated Query Engine",
+    text: "Unified Access • Optimization • Pushdown",
+    icon: Database,
   },
 ];
 
-const colorMap: Record<string, string> = {
-  blue: "bg-blue-50 text-blue-600",
-  green: "bg-emerald-50 text-emerald-600",
-  purple: "bg-violet-50 text-violet-600",
-  orange: "bg-orange-50 text-orange-600",
-};
+const platforms = [
+  ["Exasol", "Analytical Engine"],
+  ["Snowflake", "Cloud Warehouse"],
+  ["Iceberg", "Open Table Format"],
+  ["BigQuery", "Serverless Analytics"],
+];
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-slate-200 bg-[#fbfdff]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_30%,rgba(37,99,235,0.08),transparent_30%),radial-gradient(circle_at_82%_70%,rgba(16,185,129,0.08),transparent_28%)]" />
+    <section className="relative overflow-hidden border-b border-slate-100 bg-[radial-gradient(circle_at_18%_20%,rgba(37,99,235,0.12),transparent_32%),radial-gradient(circle_at_86%_14%,rgba(100,116,139,0.12),transparent_30%),linear-gradient(180deg,#ffffff_0%,#f7faff_100%)]">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.035)_1px,transparent_1px)] bg-[size:44px_44px] opacity-70" />
 
-      <div className="relative mx-auto grid max-w-[1500px] gap-14 px-8 pb-14 pt-14 xl:grid-cols-[0.85fr_1.15fr] xl:items-start">
-        <div>
-          <p className="mb-6 text-xs font-black uppercase tracking-[0.28em] text-blue-600">
-            Enterprise AI & Data Platform Architecture
+      <div className="relative mx-auto grid max-w-[1500px] gap-16 px-8 py-20 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="flex flex-col justify-center">
+          <p className="mb-5 w-fit rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-blue-600 ring-1 ring-blue-100">
+            Enterprise AI Architecture
           </p>
 
-          <h1 className="max-w-4xl text-[4.4rem] font-black leading-[0.88] tracking-[-0.085em] text-slate-950 md:text-[5.8rem]">
-            Designing
-            <span className="block">Enterprise AI &</span>
-            <span className="block text-blue-600">Modern Data Platforms</span>
+          <h1 className="max-w-3xl text-[4.4rem] font-medium leading-[0.95] tracking-[-0.065em] text-slate-950">
+            Engineering Enterprise AI Systems.
           </h1>
 
-          <p className="mt-7 max-w-2xl text-xl leading-9 text-slate-600">
-            I design enterprise AI architectures, build production-ready
-            reference implementations, and explain modern data platforms through
-            engineering notes, diagrams, videos, and working systems.
+          <p className="mt-8 max-w-2xl text-xl font-normal leading-9 text-slate-600">
+            I build working reference implementations, explain complex systems
+            through architecture notes, and publish structured learning paths
+            for enterprise AI and modern data platforms.
           </p>
 
-          <div className="mt-7 border-l-4 border-blue-600 pl-5">
-            <p className="max-w-2xl text-base font-black leading-7 text-slate-900">
-              Building trustworthy Enterprise AI systems through architecture,
-              governance, distributed analytics, and engineering-first thinking.
-            </p>
-          </div>
-
-          <div className="mt-9 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap gap-4">
             <a
-              href="#library"
-              className="rounded-xl bg-blue-600 px-6 py-4 text-sm font-black text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+              href="/library"
+              className="rounded-2xl bg-blue-600 px-7 py-4 text-[15px] font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
             >
               Explore Architecture Library →
             </a>
 
             <a
-              href="#notes"
-              className="rounded-xl border border-slate-200 bg-white px-6 py-4 text-sm font-black text-slate-900 shadow-sm transition hover:border-blue-200 hover:text-blue-600"
+              href="/library/nexusiq"
+              className="rounded-2xl border border-slate-200 bg-white/80 px-7 py-4 text-[15px] font-semibold text-slate-800 shadow-sm backdrop-blur transition hover:border-blue-200"
             >
-              Read Engineering Notes
+              View NexusIQ
             </a>
           </div>
 
-          <div className="mt-12 grid max-w-2xl grid-cols-1 gap-6 border-t border-slate-200 pt-7 sm:grid-cols-3">
-            <div className="flex items-start gap-4">
-              <div className="rounded-2xl bg-blue-50 p-3">
-                <Layers3 className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-3xl font-black tracking-[-0.05em]">8+</p>
-                <p className="mt-1 text-sm font-semibold leading-5 text-slate-500">
-                  Architecture
-                  <br />
-                  Diagrams
+          <div className="mt-12 grid max-w-xl grid-cols-4 gap-8">
+            {[
+              ["18+", "Years Experience"],
+              ["AI", "Platform Architect"],
+              ["NexusIQ", "Reference Platform"],
+              ["EU", "Career Target"],
+            ].map(([value, label]) => (
+              <div key={label}>
+                <p className="text-xl font-semibold tracking-[-0.03em] text-slate-950">
+                  {value}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  {label}
                 </p>
               </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="rounded-2xl bg-blue-50 p-3">
-                <FileText className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-3xl font-black tracking-[-0.05em]">12+</p>
-                <p className="mt-1 text-sm font-semibold leading-5 text-slate-500">
-                  Engineering
-                  <br />
-                  Notes
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="rounded-2xl bg-blue-50 p-3">
-                <PlayCircle className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-3xl font-black tracking-[-0.05em]">9+</p>
-                <p className="mt-1 text-sm font-semibold leading-5 text-slate-500">
-                  Videos &
-                  <br />
-                  Talks
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="pt-8">
-          <p className="mb-6 text-xs font-black uppercase tracking-[0.28em] text-slate-500">
-            Featured Engineering Work
-          </p>
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 rounded-[44px] bg-[radial-gradient(circle,rgba(37,99,235,0.14)_1px,transparent_1px)] [background-size:22px_22px]" />
 
-          <div className="grid gap-5 md:grid-cols-2">
-            {engineeringWork.map((work) => {
-              const Icon = work.icon;
+          <div className="relative w-full max-w-[620px] rounded-[34px] border border-slate-200/80 bg-white/75 p-8 shadow-2xl shadow-slate-200/70 backdrop-blur">
+            <div className="mb-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-600">
+                Reference Architecture
+              </p>
 
-              return (
-                <article
-                  key={work.title}
-                  className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_18px_60px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_28px_80px_rgba(37,99,235,0.08)]"
-                >
-                  <div className="mb-5 flex items-start justify-between">
-                    <div
-                      className={`flex h-16 w-16 items-center justify-center rounded-2xl ${colorMap[work.color]}`}
-                    >
-                      <Icon className="h-8 w-8 transition duration-300 group-hover:scale-110" />
+              <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
+                Enterprise AI Execution Flow
+              </h2>
+            </div>
+
+            <div className="flex flex-col items-center">
+              {architectureSteps.map((step, index) => {
+                const Icon = step.icon;
+
+                return (
+                  <div
+                    key={step.title}
+                    className="flex w-full flex-col items-center"
+                  >
+                    <div className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60">
+                      <div className="flex items-center gap-5">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                          <Icon className="h-6 w-6" />
+                        </div>
+
+                        <div>
+                          <p className="text-[18px] font-bold tracking-[-0.02em] text-slate-900">
+                            {step.title}
+                          </p>
+                          <p className="mt-1 text-[14px] font-medium leading-6 text-slate-600">
+                            {step.text}
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-black ${colorMap[work.color]}`}
-                    >
-                      {work.badge}
-                    </span>
+                    {index < architectureSteps.length - 1 && (
+                      <div className="h-6 w-[2px] bg-gradient-to-b from-blue-400 to-blue-100" />
+                    )}
                   </div>
+                );
+              })}
+            </div>
 
-                  <h3 className="text-2xl font-black tracking-[-0.045em] text-slate-950">
-                    {work.title}
-                  </h3>
+            <div className="mt-8 border-t border-slate-200 pt-6">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                Connected Data Platforms
+              </p>
 
-                  <p className="mt-1 text-sm font-bold text-slate-500">
-                    {work.subtitle}
-                  </p>
-
-                  <p className="mt-5 min-h-20 text-sm leading-6 text-slate-600">
-                    {work.description}
-                  </p>
-
-                  <a
-                    href="#work"
-                    className="mt-5 inline-block text-sm font-black text-blue-600 transition group-hover:translate-x-1"
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                {platforms.map(([name, label]) => (
+                  <div
+                    key={name}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-center shadow-sm"
                   >
-                    {work.cta}
-                  </a>
-                </article>
-              );
-            })}
+                    <p className="text-[15px] font-bold text-slate-900">
+                      {name}
+                    </p>
+                    <p className="mt-1 text-[12px] font-medium leading-4 text-slate-600">
+                      {label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

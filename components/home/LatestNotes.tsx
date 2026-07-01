@@ -1,10 +1,10 @@
-import { getLatestNotes } from "@/lib/content";
+import { getAllItems } from "../../lib/mdx";
 
 export function LatestNotes() {
-  const latestNotes = getLatestNotes(4);
+  const latestNotes = getAllItems("notes").slice(0, 4);
 
   return (
-    <section id="notes" className="border-b border-slate-200 bg-[#f7fbff]">
+    <section id="notes" className="border-b border-slate-200 bg-[#f6f8fb]">
       <div className="mx-auto max-w-[1500px] px-8 py-16">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -22,41 +22,49 @@ export function LatestNotes() {
           </a>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-4">
-          {latestNotes.map((note) => (
-            <article
-              key={note.slug}
-              className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_24px_70px_rgba(37,99,235,0.08)]"
-            >
-              <div className="mb-6 rounded-2xl border border-slate-200 bg-blue-50 p-5">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-                  {note.tags[0]}
+        {latestNotes.length > 0 ? (
+          <div className="grid gap-5 lg:grid-cols-4">
+            {latestNotes.map((note) => (
+              <article
+                key={note.slug}
+                className="group rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200"
+              >
+                <div className="mb-6 rounded-2xl border border-slate-200 bg-blue-50 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
+                    {note.tags[0] ?? "Engineering Note"}
+                  </p>
+                </div>
+
+                <h3 className="min-h-20 text-xl font-black leading-tight tracking-[-0.045em] text-slate-950">
+                  {note.title}
+                </h3>
+
+                <p className="mt-4 min-h-24 text-sm leading-6 text-slate-600">
+                  {note.description}
                 </p>
-              </div>
 
-              <h3 className="min-h-20 text-xl font-black leading-tight tracking-[-0.045em] text-slate-950">
-                {note.title}
-              </h3>
+                <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5 text-xs">
+                  <span className="font-bold text-slate-500">
+                    {note.readingTime}
+                  </span>
 
-              <p className="mt-4 min-h-24 text-sm leading-6 text-slate-600">
-                {note.description}
-              </p>
-
-              <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5 text-xs">
-                <span className="font-bold text-slate-500">
-                  {note.readingTime ?? 8} min read
-                </span>
-
-                <a
-                  href={`/notes/${note.slug}`}
-                  className="font-black text-blue-600 transition group-hover:translate-x-1"
-                >
-                  Read →
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
+                  <a
+                    href={`/notes/${note.slug}`}
+                    className="font-black text-blue-600"
+                  >
+                    Read →
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-8">
+            <p className="text-sm font-bold text-slate-600">
+              Engineering notes are being added.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

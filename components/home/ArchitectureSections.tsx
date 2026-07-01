@@ -1,19 +1,17 @@
-import { getFeaturedArchitectures } from "@/lib/content";
+import { getAllItems } from "../../lib/mdx";
 
 export function ArchitectureSections() {
-  const referenceArchitectures = getFeaturedArchitectures(6);
+  const referenceArchitectures = getAllItems("library").slice(0, 6);
 
   const libraryTopics = [
+    "AI Gateway",
+    "Federated Query",
+    "Enterprise RAG",
     "MPP",
-    "Columnar Storage",
-    "Query Optimizer",
-    "Vector Search",
-    "MCP",
-    "Agent Skills",
-    "In-Memory Processing",
-    "AI Sovereignty",
+    "Lakehouse",
+    "Identity",
     "Policy Engine",
-    "Data Residency",
+    "Vector Search",
   ];
 
   return (
@@ -35,45 +33,53 @@ export function ArchitectureSections() {
           </a>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-3">
-          {referenceArchitectures.map((item, index) => (
-            <article
-              key={item.slug}
-              className="group rounded-3xl border border-slate-200 bg-[#fbfdff] p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_24px_70px_rgba(37,99,235,0.08)]"
-            >
-              <div className="mb-7 flex items-center justify-between">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-lg font-black text-blue-600">
-                  {String(index + 1).padStart(2, "0")}
+        {referenceArchitectures.length > 0 ? (
+          <div className="grid gap-5 lg:grid-cols-3">
+            {referenceArchitectures.map((item, index) => (
+              <article
+                key={item.slug}
+                className="group rounded-3xl border border-slate-200 bg-[#fbfdff] p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200"
+              >
+                <div className="mb-7 flex items-center justify-between">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-lg font-black text-blue-600">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+
+                  <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-500 ring-1 ring-slate-200">
+                    {item.tags[0] ?? "Architecture"}
+                  </span>
                 </div>
 
-                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-500 ring-1 ring-slate-200">
-                  {item.tags[0]}
-                </span>
-              </div>
+                <h3 className="text-2xl font-black tracking-[-0.045em] text-slate-950">
+                  {item.title}
+                </h3>
 
-              <h3 className="text-2xl font-black tracking-[-0.045em] text-slate-950">
-                {item.title}
-              </h3>
+                <p className="mt-4 min-h-24 text-sm leading-6 text-slate-600">
+                  {item.description}
+                </p>
 
-              <p className="mt-4 min-h-24 text-sm leading-6 text-slate-600">
-                {item.description}
-              </p>
+                <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5">
+                  <span className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+                    Architecture
+                  </span>
 
-              <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5">
-                <span className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-                  Architecture
-                </span>
-
-                <a
-                  href={`/library/${item.slug}`}
-                  className="text-sm font-black text-blue-600 transition group-hover:translate-x-1"
-                >
-                  Explore →
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
+                  <a
+                    href={`/library/${item.slug}`}
+                    className="text-sm font-black text-blue-600"
+                  >
+                    Explore →
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-[2rem] border border-slate-200 bg-[#f7fbff] p-8">
+            <p className="text-sm font-bold text-slate-600">
+              Architecture pages are being added. Browse the concept map below.
+            </p>
+          </div>
+        )}
 
         <div className="mt-14 rounded-[2rem] border border-slate-200 bg-[#f7fbff] p-8">
           <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

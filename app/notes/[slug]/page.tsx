@@ -1,6 +1,22 @@
-import { Header } from "@/components/layout/Header";
-import { getContentBySlug } from "@/lib/content";
+import { Header } from "../../../components/layout/Header";
+import { getItem } from "../../../lib/mdx";
 import { notFound } from "next/navigation";
+import { compileMDX } from "next-mdx-remote/rsc";
+
+const mdxComponents = {
+  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2
+      className="mt-14 border-t border-slate-200 pt-10 text-3xl font-black tracking-[-0.05em] text-slate-950"
+      {...props}
+    />
+  ),
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="mt-5 text-lg leading-9 text-slate-700" {...props} />
+  ),
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className="mt-6 list-disc space-y-3 pl-6 text-lg leading-8 text-slate-700" {...props} />
+  ),
+};
 
 export default async function NoteDetailPage({
   params,
@@ -8,11 +24,14 @@ export default async function NoteDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = getContentBySlug(slug);
+  const item = getItem("notes", slug);
 
-  if (!item || item.category !== "note") {
-    notFound();
-  }
+  if (!item) notFound();
+
+  const { content } = await compileMDX({
+    source: item.content,
+    components: mdxComponents,
+  });
 
   return (
     <main className="min-h-screen bg-white text-slate-950">
@@ -28,7 +47,7 @@ export default async function NoteDetailPage({
         </h1>
 
         <div className="mt-8 flex flex-wrap gap-4 text-sm font-bold text-slate-500">
-          <span>{item.readingTime ?? 8} min read</span>
+          <span>{item.readingTime}</span>
           <span>•</span>
           <span>{item.published}</span>
           {item.series && (
@@ -43,45 +62,38 @@ export default async function NoteDetailPage({
           {item.description}
         </p>
 
-        <section className="mt-16 rounded-[2rem] border border-slate-200 bg-[#f7fbff] p-10">
-          <h2 className="text-3xl font-black tracking-[-0.05em]">
-            Article Body Placeholder
-          </h2>
-          <p className="mt-5 text-lg leading-8 text-slate-600">
-            This page will become the full engineering note with diagrams,
-            explanations, implementation details, references, and links to
-            LinkedIn, Medium, YouTube, GitHub, and official articles.
-          </p>
-        </section>
+        <div className="mt-14">{content}</div>
 
-        <section className="mt-14">
-          <h2 className="text-3xl font-black tracking-[-0.05em]">
-            External Links
-          </h2>
+        {(item.medium || item.linkedin || item.youtube || item.github) && (
+          <section className="mt-16 border-t border-slate-200 pt-10">
+            <h2 className="text-3xl font-black tracking-[-0.05em]">
+              Published Elsewhere
+            </h2>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            {item.medium && (
-              <a
-                href={item.medium}
-                className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-black text-slate-700 hover:text-blue-600"
-              >
-                Medium →
-              </a>
-            )}
-
-            {item.linkedin && (
-              <a className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-black text-slate-700 hover:text-blue-600">
-                LinkedIn →
-              </a>
-            )}
-
-            {item.youtube && (
-              <a className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-black text-slate-700 hover:text-blue-600">
-                YouTube →
-              </a>
-            )}
-          </div>
-        </section>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {item.medium && (
+                <a href={item.medium} target="_blank" className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-black">
+                  Medium →
+                </a>
+              )}
+              {item.linkedin && (
+                <a href={item.linkedin} target="_blank" className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-black">
+                  LinkedIn →
+                </a>
+              )}
+              {item.youtube && (
+                <a href={item.youtube} target="_blank" className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-black">
+                  YouTube →
+                </a>
+              )}
+              {item.github && (
+                <a href={item.github} target="_blank" className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-black">
+                  GitHub →
+                </a>
+              )}
+            </div>
+          </section>
+        )}
       </article>
     </main>
   );

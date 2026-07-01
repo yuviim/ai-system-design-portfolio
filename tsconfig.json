@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "content/videos/columnar-storage/page.mdx"  ],
   "exclude": ["node_modules"]
 }

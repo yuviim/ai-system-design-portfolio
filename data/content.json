@@ -1,0 +1,282 @@
+[
+  {
+    "id": "6eb40a33-ad96-4d0e-929b-d54e9273ee0f",
+    "type": "medium",
+    "title": "Why AI Assistants Need More Than Database Access",
+    "description": "How Exasol Agent Skills Bring Platform Awareness to Enterprise Analytics",
+    "summary": "",
+    "url": "https://medium.com/@yuvii336_72159/why-ai-assistants-need-more-than-database-access-e30131e5a64f",
+    "mediumUrl": "https://medium.com/@yuvii336_72159/why-ai-assistants-need-more-than-database-access-e30131e5a64f",
+    "linkedinUrl": "",
+    "youtubeUrl": "",
+    "githubUrl": "",
+    "slidesUrl": "",
+    "websiteSlug": "",
+    "videoId": "",
+    "thumbnail": "",
+    "series": "Know Exasol",
+    "path": "",
+    "episode": null,
+    "slug": "",
+    "order": null,
+    "duration": "",
+    "readingTime": "3 mins read",
+    "tags": [
+      "AI",
+      "Agent"
+    ],
+    "featured": false,
+    "published": "2026-06-30T14:53:33.123Z"
+  },
+  {
+    "id": "e7f806b0-f5ea-4bc1-8ed6-2d6cd6f4a9d0",
+    "type": "medium",
+    "title": "Connecting Claude Desktop to Exasol with MCP",
+    "description": "Connecting Exasol MCP with claude desktop",
+    "summary": "",
+    "url": "https://medium.com/@yuvii336_72159/connecting-claude-desktop-to-exasol-with-mcp-2a351f3c9d0c",
+    "mediumUrl": "https://medium.com/@yuvii336_72159/connecting-claude-desktop-to-exasol-with-mcp-2a351f3c9d0c",
+    "linkedinUrl": "",
+    "youtubeUrl": "",
+    "githubUrl": "",
+    "slidesUrl": "",
+    "websiteSlug": "",
+    "videoId": "",
+    "thumbnail": "",
+    "series": "Know Exasol",
+    "path": "",
+    "episode": null,
+    "slug": "",
+    "order": null,
+    "duration": "",
+    "readingTime": "5 mins read",
+    "tags": [
+      "MCP",
+      "Exasol",
+      "Claude"
+    ],
+    "featured": false,
+    "published": "2026-06-30T14:53:33.123Z"
+  },
+  {
+    "id": "d9e85f5c-015c-4b59-83f6-339a9652cf7e",
+    "type": "medium",
+    "url": "https://medium.com/@yuvii336_72159/running-ai-inside-sql-turning-customer-feedback-into-business-decisions-4c3cf43f1291",
+    "videoId": "",
+    "title": "Running AI Inside SQL: Turning Customer Feedback into Business Decisions",
+    "description": "How in-database AI transforms customer feedback into business insights using SQL.",
+    "thumbnail": "",
+    "series": "Running AI Inside SQL",
+    "path": "architecture-notes",
+    "episode": null,
+    "slug": "running-ai-inside-sql",
+    "order": 1,
+    "duration": "",
+    "tags": [
+      "AI",
+      "SQL",
+      "LLM",
+      "Exasol"
+    ],
+    "published": "2026-06-29T05:10:49.961Z"
+  },
+  {
+    "id": "9ae14965-78e6-4697-b682-bb0db2ecad60",
+    "type": "youtube",
+    "url": "https://youtu.be/KtgTkMmp_RQ?si=GKG7Ic39YkGRHRqq",
+    "videoId": "KtgTkMmp_RQ",
+    "title": "How Exasol Virtual Schema Powers AI-Native Data Federation",
+    "description": "How Exasol Virtual Schema Powers AI-Native Data Federation",
+    "thumbnail": "https://i.ytimg.com/vi/KtgTkMmp_RQ/hqdefault.jpg",
+    "series": "NexusIQ",
+    "path": "nexusiq",
+    "episode": 2,
+    "slug": "virtual-schema-data-federation",
+    "order": 2,
+    "duration": "",
+    "tags": [
+      "Federation",
+      "Virtual Schema",
+      "NexusIQ"
+    ],
+    "published": "2026-06-29T04:29:06.111Z"
+  },
+  {
+    "id": "79b92ea8-0ed8-460e-b870-60f4f416743d",
+    "type": "youtube",
+    "url": "https://youtu.be/6Uww7oafqv0?si=EQW25Zv3Ogcb_pwN",
+    "videoId": "6Uww7oafqv0",
+    "title": "Know Exasol Ep.5 | Exasol Execution Engine Explained | How SQL Queries Are Executed",
+    "description": "Know Exasol Ep.5 | Exasol Execution Engine Explained | How SQL Queries Are Executed",
+    "thumbnail": "https://i.ytimg.com/vi/6Uww7oafqv0/hqdefault.jpg",
+    "series": "Know Exasol",
+    "path": "know-exasol",
+    "episode": 5,
+    "slug": "execution-engine",
+    "order": 5,
+    "duration": "",
+    "tags": [
+      "Execution Engine",
+      "Query Processing"
+    ],
+    "published": "2026-06-29T04:28:34.220Z"
+  },
+  {
+    "id": "697bb49e-c773-4f34-9fe3-d866af2cf242",
+    "type": "youtube",
+    "url": "https://youtu.be/v8cCUKbmVgA?si=VE1pgqd3sEq62ZZ3",
+    "videoId": "v8cCUKbmVgA",
+    "title": "Know Exasol Ep.4 | In-Memory Processing Explained",
+    "description": "Know Exasol Ep.4 | Exasol In-Memory Processing Explained | How Main Memory Powers Fast Analytics",
+    "thumbnail": "https://i.ytimg.com/vi/v8cCUKbmVgA/hqdefault.jpg",
+    "series": "Know Exasol",
+    "path": "know-exasol",
+    "episode": 4,
+    "slug": "in-memory-processing",
+    "order": 4,
+    "duration": "",
+    "tags": [
+      "Memory",
+      "Performance"
+    ],
+    "published": "2026-06-29T04:28:16.327Z"
+  },
+  {
+    "id": "f691be43-b84f-4c70-b962-95cbc30e10c7",
+    "type": "youtube",
+    "url": "https://youtu.be/3ned--TZyzc?si=zDEeHK3NaLr_F0AG",
+    "videoId": "3ned--TZyzc",
+    "title": "Know Exasol Ep.3 | How Exasol Scales Analytics",
+    "description": "Know Exasol Ep.3 | How Exasol Scales Analytics",
+    "thumbnail": "https://i.ytimg.com/vi/3ned--TZyzc/hqdefault.jpg",
+    "series": "Know Exasol",
+    "path": "know-exasol",
+    "episode": 3,
+    "slug": "mpp-shared-nothing",
+    "order": 3,
+    "duration": "",
+    "tags": [
+      "MPP",
+      "Distributed Systems"
+    ],
+    "published": "2026-06-29T04:27:29.040Z"
+  },
+  {
+    "id": "a988c995-51d4-4c87-8ced-d231c019c747",
+    "type": "youtube",
+    "url": "https://youtu.be/jhP3as-5YX0?si=AcuO-Jo8-T1y4BH1",
+    "videoId": "jhP3as-5YX0",
+    "title": "Know Exasol Ep.2 | Why Analytics Need Columnar Storage",
+    "description": "Why Analytics Need Columnar Storage",
+    "thumbnail": "https://i.ytimg.com/vi/jhP3as-5YX0/hqdefault.jpg",
+    "series": "Know Exasol",
+    "path": "know-exasol",
+    "episode": 2,
+    "slug": "columnar-storage",
+    "order": 2,
+    "duration": "",
+    "tags": [
+      "Columnar Storage"
+    ],
+    "published": "2026-06-29T04:27:13.530Z"
+  },
+  {
+    "id": "cc317cc0-7a63-4de9-89dd-416345b835f8",
+    "type": "youtube",
+    "url": "https://youtu.be/ldO4kNYUryk?si=g4eYxPVG0Pmnenub",
+    "videoId": "ldO4kNYUryk",
+    "title": "Know Exasol Ep.1 | What Makes Exasol Fast?",
+    "description": "Know Exasol Ep.1 | MPP, Columnar Storage & In-Memory Analytics",
+    "thumbnail": "https://i.ytimg.com/vi/ldO4kNYUryk/hqdefault.jpg",
+    "series": "Know Exasol",
+    "path": "know-exasol",
+    "episode": 1,
+    "slug": "what-makes-exasol-fast",
+    "order": 1,
+    "duration": "",
+    "tags": [
+      "MPP",
+      "Performance"
+    ],
+    "published": "2026-06-29T04:26:57.845Z"
+  },
+  {
+    "id": "e786a758-a784-44d1-a0b9-cacdc94f6156",
+    "type": "youtube",
+    "url": "https://youtu.be/Ay05i8IOaGs?si=hAlCNSj3X4WfyUyK",
+    "videoId": "Ay05i8IOaGs",
+    "title": "Know Exasol Ep.0 | Why Exasol?",
+    "description": "Understanding Exasol's Role in Modern Analytics Architectures",
+    "thumbnail": "https://i.ytimg.com/vi/Ay05i8IOaGs/hqdefault.jpg",
+    "series": "Know Exasol",
+    "path": "know-exasol",
+    "episode": 0,
+    "slug": "why-exasol",
+    "order": 0,
+    "duration": "",
+    "tags": [
+      "Introduction"
+    ],
+    "published": "2026-06-29T04:26:25.667Z"
+  },
+  {
+    "id": "e6b0898a-7265-48bf-a739-81afd369c3be",
+    "type": "youtube",
+    "url": "https://www.youtube.com/watch?v=pvXUyB3e-5A",
+    "videoId": "pvXUyB3e-5A",
+    "title": "NexusIQ | Enterprise AI Knowledge Assistant",
+    "description": "Text-to-SQL + SharePoint RAG + RBAC",
+    "thumbnail": "https://i.ytimg.com/vi/KtgTkMmp_RQ/hqdefault.jpg",
+    "series": "NexusIQ",
+    "path": "nexusiq",
+    "episode": 1,
+    "slug": "enterprise-ai-knowledge-assistant",
+    "order": 1,
+    "duration": "",
+    "tags": [
+      "RAG",
+      "Enterprise AI",
+      "NexusIQ"
+    ],
+    "published": "2026-06-29T04:25:30.339Z"
+  },
+  {
+    "id": "85f9c42c-605b-4422-bcd4-23d862ab4794",
+    "type": "youtube",
+    "url": "https://www.youtube.com/watch?v=Dshdobz_T1E&list=PLdy8qJ6EdCvU&index=1",
+    "videoId": "Dshdobz_T1E",
+    "title": "Engineering Sovereign AI Systems Ep.1 | Where Does Enterprise AI Actually Run?",
+    "description": "Engineering Sovereign AI Systems Episode 1",
+    "thumbnail": "https://i.ytimg.com/vi/Dshdobz_T1E/hqdefault.jpg",
+    "series": "Engineering Sovereign AI Systems",
+    "path": "engineering-sovereign-ai-systems",
+    "episode": 1,
+    "slug": "where-does-enterprise-ai-run",
+    "order": 1,
+    "duration": "",
+    "tags": [
+      "Sovereign AI"
+    ],
+    "published": "2026-06-29T04:23:09.002Z"
+  },
+  {
+    "id": "fd4d6fb8-e23e-4e13-a071-4990950db56c",
+    "type": "youtube",
+    "url": "https://www.youtube.com/watch?v=wyJ4nX7wY64&list=PLdy8qJ6EdCvU&index=2",
+    "videoId": "wyJ4nX7wY64",
+    "title": "Engineering Sovereign AI Systems | Introduction",
+    "description": "Introducing Engineering Sovereign AI Systems",
+    "thumbnail": "https://i.ytimg.com/vi/wyJ4nX7wY64/hqdefault.jpg",
+    "series": "Engineering Sovereign AI Systems",
+    "path": "engineering-sovereign-ai-systems",
+    "episode": 0,
+    "slug": "introduction",
+    "order": 0,
+    "duration": "",
+    "tags": [
+      "Introduction",
+      "Sovereign AI"
+    ],
+    "published": "2026-06-29T04:21:53.316Z"
+  }
+]

@@ -27,6 +27,7 @@ type ContentItem = {
   youtubeUrl?: string;
   githubUrl?: string;
   slidesUrl?: string;
+  diagram?: string;
   websiteSlug?: string;
   readingTime?: string;
   featured?: boolean;
@@ -97,10 +98,16 @@ export default function HomePage() {
   const latestArticles = content
     .filter(
       (item) =>
+        item.type === "architecture" ||
         item.type === "medium" ||
         item.type === "linkedin" ||
         item.type === "article" ||
         item.type === "note"
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.published || 0).getTime() -
+        new Date(a.published || 0).getTime()
     )
     .slice(0, 3);
 
@@ -506,10 +513,10 @@ export default function HomePage() {
         <div className="mb-8 flex items-end justify-between border-t border-slate-200 pt-12">
           <div>
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-blue-600">
-              Architecture Notes
+              Engineering Library
             </p>
             <h2 className="text-4xl font-semibold tracking-[-0.05em] text-slate-950">
-              Recent engineering notes from my work.
+              Latest Engineering Notes
             </h2>
           </div>
 
@@ -522,11 +529,13 @@ export default function HomePage() {
           {latestArticles.length > 0 ? (
             latestArticles.map((article) => {
               const articleHref =
-                article.websiteSlug ||
-                article.mediumUrl ||
-                article.linkedinUrl ||
-                article.url ||
-                "#";
+                article.path && article.slug
+                  ? `/library/${article.path}/${article.slug}`
+                  : article.websiteSlug ||
+                    article.mediumUrl ||
+                    article.linkedinUrl ||
+                    article.url ||
+                    "#";
 
               const fallbackImage =
                 article.series === "Running AI Inside SQL"
@@ -548,18 +557,22 @@ export default function HomePage() {
                     className="overflow-hidden rounded-[24px] bg-slate-100"
                   >
                     <img
-                      src={article.thumbnail || fallbackImage}
+                      src={article.diagram || article.thumbnail || fallbackImage}
                       alt={article.title}
                       className="aspect-[16/10] h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />
                   </a>
 
-                  <div className="flex flex-col px-2 py-3">
+                                    <div className="flex flex-col px-2 py-3">
                     <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-600">
-                      {article.type === "medium"
+                      {article.type === "architecture"
+                        ? "Engineering Note"
+                        : article.type === "medium"
                         ? "Medium Article"
                         : article.type === "linkedin"
                         ? "LinkedIn Post"
+                        : article.type === "youtube"
+                        ? "YouTube Video"
                         : "Engineering Note"}
                     </p>
 
@@ -568,7 +581,7 @@ export default function HomePage() {
                       target={articleHref.startsWith("http") ? "_blank" : undefined}
                       className="mt-3"
                     >
-                      <h3 className="max-w-4xl text-2xl font-bold leading-tight tracking-[-0.035em] text-slate-950 transition group-hover:text-blue-600">
+                      <h3 className="max-w-4xl text-2xl font-bold leading-tight tracking-[-0.035em] text-slate-950 transition hover:text-blue-600">
                         {article.title}
                       </h3>
                     </a>
@@ -591,6 +604,12 @@ export default function HomePage() {
                       )}
                     </div>
 
+                    {article.diagram && (
+                      <div className="mt-3 w-fit rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600">
+                        Architecture diagram included
+                      </div>
+                    )}
+
                     {article.description && (
                       <p className="mt-4 max-w-3xl text-[16px] font-medium leading-7 text-slate-700">
                         {article.description}
@@ -599,8 +618,7 @@ export default function HomePage() {
 
                     <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-5">
                       <PlatformLinks
-                        websiteSlug={article.websiteSlug}
-                        mediumUrl={article.mediumUrl || article.url}
+                        mediumUrl={article.mediumUrl}
                         linkedinUrl={article.linkedinUrl}
                         youtubeUrl={article.youtubeUrl}
                         githubUrl={article.githubUrl}

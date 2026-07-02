@@ -1,5 +1,35 @@
 [
   {
+    "id": "ae3953ad-3d4d-420b-a554-6c60d92fd904",
+    "type": "architecture",
+    "title": "Computing Enterprise Data systems",
+    "description": "One of the biggest shifts happening in enterprise data systems right now isn’t just about storage.\n\nIt’s about compute.",
+    "summary": "",
+    "url": "https://www.linkedin.com/posts/yuvim_ai-dataarchitecture-distributedsystems-activity-7463793520903069696-MNEL?utm_source=share&utm_medium=member_desktop&rcm=ACoAABSy0s8BHBRdxLTCytTSWpdi5vaU-PbjT1g",
+    "mediumUrl": "",
+    "linkedinUrl": "https://www.linkedin.com/posts/yuvim_ai-dataarchitecture-distributedsystems-activity-7463793520903069696-MNEL?utm_source=share&utm_medium=member_desktop&rcm=ACoAABSy0s8BHBRdxLTCytTSWpdi5vaU-PbjT1g",
+    "youtubeUrl": "",
+    "githubUrl": "",
+    "slidesUrl": "",
+    "websiteSlug": "",
+    "videoId": "",
+    "thumbnail": "/images/library/1782891446448-modern-ai-data-platform.png",
+    "diagram": "/images/library/1782891446448-modern-ai-data-platform.png",
+    "series": "Modern Data Platform",
+    "path": "data-platforms",
+    "episode": null,
+    "slug": "computing-enterprise-data-systems",
+    "order": null,
+    "duration": "",
+    "readingTime": "3 min read",
+    "tags": [
+      "Data Platform",
+      "Federation"
+    ],
+    "featured": true,
+    "published": "2026-07-01T07:33:36.297Z"
+  },
+  {
     "id": "6eb40a33-ad96-4d0e-929b-d54e9273ee0f",
     "type": "medium",
     "title": "Why AI Assistants Need More Than Database Access",

@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  BookOpen,
   Eye,
   FileText,
   ImageIcon,
@@ -73,6 +72,8 @@ const emptyForm: ContentItem = {
   published: new Date().toISOString(),
 };
 
+const filters = ["All", "Architecture", "Notes", "Videos", "Drafts", "Published"];
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -81,57 +82,12 @@ function slugify(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-function renderMarkdown(text: string) {
-  return text
-    .split("\n")
-    .map((line, index) => {
-      if (line.startsWith("### ")) {
-        return (
-          <h3 key={index} className="mt-8 text-2xl font-bold text-slate-950">
-            {line.replace("### ", "")}
-          </h3>
-        );
-      }
-
-      if (line.startsWith("## ")) {
-        return (
-          <h2 key={index} className="mt-10 text-3xl font-bold text-slate-950">
-            {line.replace("## ", "")}
-          </h2>
-        );
-      }
-
-      if (line.startsWith("# ")) {
-        return (
-          <h1 key={index} className="mt-8 text-4xl font-bold text-slate-950">
-            {line.replace("# ", "")}
-          </h1>
-        );
-      }
-
-      if (line.startsWith("- ")) {
-        return (
-          <li key={index} className="ml-5 list-disc text-slate-700">
-            {line.replace("- ", "")}
-          </li>
-        );
-      }
-
-      if (!line.trim()) return <div key={index} className="h-4" />;
-
-      return (
-        <p key={index} className="text-[16px] font-medium leading-8 text-slate-700">
-          {line}
-        </p>
-      );
-    });
-}
-
 export default function ContentStudioPage() {
   const [items, setItems] = useState<ContentItem[]>([]);
   const [form, setForm] = useState<ContentItem>(emptyForm);
   const [tagInput, setTagInput] = useState("");
   const [query, setQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All");
   const [saving, setSaving] = useState(false);
 
   async function loadContent() {
@@ -156,11 +112,21 @@ export default function ContentStudioPage() {
     [items]
   );
 
-  const filtered = items.filter((item) =>
-    `${item.title} ${item.series} ${item.path}`
-      .toLowerCase()
-      .includes(query.toLowerCase())
-  );
+  const filtered = items.filter((item) => {
+    const text = `${item.title} ${item.series} ${item.path}`.toLowerCase();
+    const matchesSearch = text.includes(query.toLowerCase());
+
+    const matchesFilter =
+      activeFilter === "All" ||
+      (activeFilter === "Architecture" && item.type === "architecture") ||
+      (activeFilter === "Notes" &&
+        ["article", "medium", "linkedin", "note"].includes(item.type)) ||
+      (activeFilter === "Videos" && item.type === "youtube") ||
+      (activeFilter === "Drafts" && item.status === "draft") ||
+      (activeFilter === "Published" && item.status !== "draft");
+
+    return matchesSearch && matchesFilter;
+  });
 
   function updateField(field: keyof ContentItem, value: any) {
     setForm((prev) => {
@@ -227,8 +193,8 @@ export default function ContentStudioPage() {
 
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_45%,#eef3f8_100%)] text-slate-950">
-      <div className="mx-auto max-w-[1700px] px-8 py-8">
-        <header className="mb-8 flex items-center justify-between rounded-[28px] border border-slate-200 bg-white/90 px-6 py-5 shadow-sm backdrop-blur">
+      <div className="mx-auto max-w-[1720px] px-8 py-8">
+        <header className="mb-6 flex items-center justify-between rounded-[28px] border border-slate-200 bg-white/95 px-6 py-5 shadow-sm">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-blue-600">
               Yuvaraj AI
@@ -259,7 +225,7 @@ export default function ContentStudioPage() {
           </div>
         </header>
 
-        <section className="mb-8 grid gap-4 md:grid-cols-4">
+        <section className="mb-6 grid gap-4 md:grid-cols-4">
           <StatCard icon={LayoutDashboard} label="Total content" value={stats.total} />
           <StatCard icon={ImageIcon} label="Architecture pages" value={stats.architectures} />
           <StatCard icon={FileText} label="Engineering notes" value={stats.articles} />
@@ -267,7 +233,7 @@ export default function ContentStudioPage() {
         </section>
 
         <div className="grid gap-8 xl:grid-cols-[1fr_340px]">
-          <section className="rounded-[34px] border border-slate-200 bg-white/95 p-8 shadow-sm backdrop-blur">
+          <section className="rounded-[34px] border border-slate-200 bg-white/95 p-8 shadow-sm">
             <div className="mb-8 flex items-center justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-600">
@@ -288,14 +254,16 @@ export default function ContentStudioPage() {
                   Save Draft
                 </button>
 
-                <a
-                  href={previewHref}
-                  target="_blank"
-                  className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900"
-                >
-                  <Eye className="h-4 w-4" />
-                  Preview
-                </a>
+                <button
+                    onClick={() => {
+                        const preview = document.getElementById("live-preview");
+                        preview?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900"
+                    >
+                    <Eye className="h-4 w-4" />
+                    Preview
+                </button>
 
                 <button
                   onClick={() => saveContent("published")}
@@ -337,21 +305,49 @@ export default function ContentStudioPage() {
               />
             </div>
 
-            <div className="grid gap-6 xl:grid-cols-2">
-              <section className="rounded-[28px] border border-slate-200 bg-slate-50 p-5">
-                <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm font-bold text-slate-900">
-                    Markdown editor
-                  </p>
-                  <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 ring-1 ring-slate-200">
-                    Write
-                  </span>
-                </div>
+            <section className="rounded-[28px] border border-slate-200 bg-slate-50 p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm font-bold text-slate-900">
+                  Writing block
+                </p>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 ring-1 ring-slate-200">
+                  Markdown
+                </span>
+              </div>
+            <section
+                id="live-preview"
+                className="mt-8 rounded-[28px] border border-slate-200 bg-white p-8 shadow-sm"
+                >
+                <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-blue-600">
+                    Live Preview
+                </p>
 
-                <textarea
-                  value={form.content || ""}
-                  onChange={(e) => updateField("content", e.target.value)}
-                  placeholder={`## Overview
+                <h1 className="text-5xl font-bold tracking-[-0.06em] text-slate-950">
+                    {form.title || "Untitled architecture page"}
+                </h1>
+
+                {form.description && (
+                    <p className="mt-5 text-xl font-medium leading-9 text-slate-700">
+                    {form.description}
+                    </p>
+                )}
+
+                {form.diagram && (
+                    <img
+                    src={form.diagram}
+                    alt={form.title}
+                    className="mt-8 w-full rounded-3xl border border-slate-200 shadow-sm"
+                    />
+                )}
+
+                <div className="mt-8 whitespace-pre-wrap text-base font-medium leading-8 text-slate-700">
+                    {form.content}
+                </div>
+                </section>        
+              <textarea
+                value={form.content || ""}
+                onChange={(e) => updateField("content", e.target.value)}
+                placeholder={`## Overview
 
 Explain the architecture here.
 
@@ -372,49 +368,13 @@ Explain the architecture here.
 ## Reference implementation
 
 Explain how this connects to NexusIQ.`}
-                  className="min-h-[900px] w-full resize-y rounded-2xl border border-slate-200 bg-white p-5 font-mono text-sm leading-7 text-slate-800 outline-none focus:border-blue-300"
-                />
-              </section>
-
-              <section className="rounded-[28px] border border-slate-200 bg-white p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm font-bold text-slate-900">
-                    Live preview
-                  </p>
-                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600">
-                    Preview
-                  </span>
-                </div>
-
-                <article className="prose prose-slate max-w-none">
-                  <h1 className="text-4xl font-bold tracking-[-0.05em] text-slate-950">
-                    {form.title || "Untitled architecture page"}
-                  </h1>
-
-                  {form.description && (
-                    <p className="mt-4 text-lg font-medium leading-8 text-slate-700">
-                      {form.description}
-                    </p>
-                  )}
-
-                  {form.diagram && (
-                    <img
-                      src={form.diagram}
-                      alt={form.title}
-                      className="mt-8 rounded-3xl border border-slate-200 shadow-sm"
-                    />
-                  )}
-
-                  <div className="mt-8 space-y-2">
-                    {renderMarkdown(form.content || "")}
-                  </div>
-                </article>
-              </section>
-            </div>
+                className="min-h-[900px] w-full resize-y rounded-2xl border border-slate-200 bg-white p-6 font-mono text-sm leading-8 text-slate-800 outline-none focus:border-blue-300"
+              />
+            </section>
           </section>
 
           <aside className="space-y-6">
-            <section className="rounded-[34px] border border-slate-200 bg-white/95 p-6 shadow-sm backdrop-blur">
+            <section className="rounded-[34px] border border-slate-200 bg-white/95 p-6 shadow-sm">
               <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-blue-600">
                 Publishing
               </p>
@@ -496,9 +456,9 @@ Explain how this connects to NexusIQ.`}
               </div>
             </section>
 
-            <section className="rounded-[34px] border border-slate-200 bg-white/95 p-6 shadow-sm backdrop-blur">
+            <section className="rounded-[34px] border border-slate-200 bg-white/95 p-6 shadow-sm">
               <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-blue-600">
-                Links
+                Resources
               </p>
 
               <div className="space-y-4">
@@ -538,14 +498,14 @@ Explain how this connects to NexusIQ.`}
           </aside>
         </div>
 
-        <section className="mt-8 rounded-[34px] border border-slate-200 bg-white/95 p-7 shadow-sm backdrop-blur">
+        <section className="mt-8 rounded-[34px] border border-slate-200 bg-white/95 p-7 shadow-sm">
           <div className="mb-6 flex items-center justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-600">
-                Library database
+                Library Database
               </p>
               <h2 className="mt-2 text-3xl font-bold tracking-[-0.05em]">
-                Published content
+                Engineering Library
               </h2>
             </div>
 
@@ -554,75 +514,106 @@ Explain how this connects to NexusIQ.`}
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search content..."
+                placeholder="Search library..."
                 className="w-full bg-transparent text-sm font-medium outline-none"
               />
             </div>
           </div>
 
-          <div className="grid gap-4">
+          <div className="mb-6 flex flex-wrap gap-2">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`rounded-full px-4 py-2 text-xs font-bold ${
+                  activeFilter === filter
+                    ? "bg-blue-600 text-white"
+                    : "border border-slate-200 bg-white text-slate-600"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid gap-5">
             {filtered.map((item) => {
               const href = `/library/${item.path}/${item.slug}`;
               const image = item.thumbnail || item.diagram;
+              const status = item.status === "draft" ? "Draft" : "Published";
 
               return (
                 <div
                   key={item.id}
-                  className="grid gap-5 rounded-[28px] border border-slate-200 bg-slate-50 p-4 transition hover:border-blue-200 hover:bg-white md:grid-cols-[220px_1fr_auto]"
+                  className="grid gap-6 rounded-[32px] border border-slate-200 bg-slate-50 p-5 transition hover:border-blue-200 hover:bg-white hover:shadow-lg hover:shadow-blue-100/40 lg:grid-cols-[320px_1fr_auto]"
                 >
-                  <div className="h-32 overflow-hidden rounded-2xl bg-slate-200">
+                  <div className="aspect-video overflow-hidden rounded-[24px] bg-slate-200">
                     {image ? (
                       <img
                         src={image}
                         alt={item.title}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover transition duration-500 hover:scale-105"
                       />
                     ) : (
                       <div className="flex h-full items-center justify-center text-slate-400">
-                        <ImageIcon className="h-7 w-7" />
+                        <ImageIcon className="h-8 w-8" />
                       </div>
                     )}
                   </div>
 
                   <div className="min-w-0 py-2">
+                    <div className="mb-3 flex flex-wrap gap-2">
+                      <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+                        ● {status}
+                      </span>
+                      <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-blue-600">
+                        {item.type}
+                      </span>
+                      <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600">
+                        {item.readingTime || "—"}
+                      </span>
+                    </div>
+
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">
-                      {item.type} · {item.series}
+                      {item.series}
                     </p>
 
-                    <h3 className="mt-2 text-xl font-bold tracking-[-0.03em] text-slate-950">
+                    <h3 className="mt-2 text-2xl font-bold tracking-[-0.04em] text-slate-950">
                       {item.title}
                     </h3>
 
-                    <p className="mt-2 line-clamp-2 text-sm font-medium leading-6 text-slate-600">
+                    <p className="mt-3 line-clamp-2 text-base font-medium leading-7 text-slate-600">
                       {item.description}
                     </p>
 
-                    <p className="mt-3 text-xs font-bold text-slate-500">
+                    <p className="mt-4 text-xs font-bold text-slate-500">
                       {href}
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={href}
-                      target="_blank"
-                      className="rounded-xl border border-slate-200 bg-white p-3 text-slate-700"
-                    >
-                      <Link2 className="h-4 w-4" />
-                    </a>
+                  <div className="flex items-center gap-2 lg:flex-col lg:justify-center">
+                    <button
+                        onClick={() => {
+                            const url = `${window.location.origin}${href}`;
+                            window.open(url, "_blank");
+                        }}
+                        className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700"
+                        >
+                        Preview
+                    </button>
 
                     <button
                       onClick={() => editItem(item)}
-                      className="rounded-xl border border-slate-200 bg-white p-3 text-slate-700"
+                      className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700"
                     >
-                      <Pencil className="h-4 w-4" />
+                      Edit
                     </button>
 
                     <button
                       onClick={() => deleteItem(item.id)}
-                      className="rounded-xl border border-red-200 bg-white p-3 text-red-600"
+                      className="rounded-xl border border-red-200 bg-white px-4 py-3 text-sm font-bold text-red-600"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -644,19 +635,19 @@ function StatCard({
   label: string;
   value: number;
 }) {
-    return (
+  return (
     <div className="flex items-center gap-4 rounded-[22px] border border-slate-200 bg-white/95 p-5 shadow-sm">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
         <Icon className="h-5 w-5" />
-        </div>
-        <div>
+      </div>
+      <div>
         <p className="text-3xl font-bold tracking-[-0.06em] text-slate-950">
-            {value}
+          {value}
         </p>
         <p className="text-sm font-bold text-slate-500">{label}</p>
-        </div>
+      </div>
     </div>
-    );
+  );
 }
 
 function Field({
@@ -685,20 +676,58 @@ function ImageInput({
   placeholder: string;
   onChange: (value: string) => void;
 }) {
+  const [uploading, setUploading] = useState(false);
+
+  async function uploadImage(file: File) {
+    setUploading(true);
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("folder", "library");
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    setUploading(false);
+
+    if (!res.ok) {
+      alert(data.error || "Image upload failed");
+      return;
+    }
+
+    onChange(data.url);
+  }
+
   return (
     <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-4">
       <p className="mb-3 text-sm font-bold text-slate-700">{label}</p>
 
-      <div className="mb-3 h-52 overflow-hidden rounded-2xl bg-slate-200">
+      <label className="mb-3 flex h-56 cursor-pointer items-center justify-center overflow-hidden rounded-2xl border border-dashed border-slate-300 bg-slate-200 transition hover:border-blue-300 hover:bg-blue-50">
         {value ? (
           <img src={value} alt={label} className="h-full w-full object-cover" />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center text-slate-400">
-            <ImageIcon className="mb-2 h-8 w-8" />
-            <p className="text-xs font-bold">Upload or paste image path</p>
+          <div className="text-center text-slate-400">
+            <ImageIcon className="mx-auto mb-2 h-8 w-8" />
+            <p className="text-xs font-bold">
+              {uploading ? "Uploading..." : "Click to upload image"}
+            </p>
+            <p className="mt-1 text-xs font-medium">PNG, JPG, SVG</p>
           </div>
         )}
-      </div>
+
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) uploadImage(file);
+          }}
+        />
+      </label>
 
       <input
         value={value}

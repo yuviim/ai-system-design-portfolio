@@ -28,6 +28,23 @@ function writeContent(items: any[]) {
   fs.writeFileSync(contentFile, JSON.stringify(items, null, 2), "utf8");
 }
 
+function normalizeSlug(value: string) {
+  return (value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function normalizeTags(tags: any) {
+  if (Array.isArray(tags)) return tags;
+
+  return (tags || "")
+    .split(",")
+    .map((tag: string) => tag.trim())
+    .filter(Boolean);
+}
+
 export async function GET() {
   const items = readContent();
 
@@ -52,14 +69,32 @@ export async function POST(req: NextRequest) {
     body.websiteSlug ||
     "";
 
+  const slug = normalizeSlug(body.slug || body.title || "");
+  const libraryPath = normalizeSlug(body.path || body.series || "");
+
   const newItem = {
     id: body.id || crypto.randomUUID(),
+
+    // Type
     type: body.type || "article",
 
+    // Core content
     title: body.title || "",
-    description: body.description || "",
+    description: body.description || body.subtitle || "",
     summary: body.summary || "",
 
+    // CMS article content
+    content: body.content || "",
+    body: body.body || "",
+    blocks: Array.isArray(body.blocks) ? body.blocks : [],
+
+    // Media
+    thumbnail: body.thumbnail || body.coverImage || "",
+    coverImage: body.coverImage || body.thumbnail || "",
+    heroImage: body.heroImage || body.coverImage || body.thumbnail || "",
+    diagram: body.diagram || "",
+
+    // Links
     url: primaryUrl,
     mediumUrl: body.mediumUrl || "",
     linkedinUrl: body.linkedinUrl || "",
@@ -68,24 +103,30 @@ export async function POST(req: NextRequest) {
     slidesUrl: body.slidesUrl || "",
     websiteSlug: body.websiteSlug || "",
 
+    // Video
     videoId: body.videoId || "",
-    thumbnail: body.thumbnail || "",
+
+    // Metadata
     series: body.series || "",
-    path: body.path || "",
+    path: libraryPath,
     episode: body.episode ?? null,
-    slug: body.slug || "",
+    slug,
     order: body.order ?? null,
     duration: body.duration || "",
     readingTime: body.readingTime || "",
-    tags: body.tags || [],
+    tags: normalizeTags(body.tags),
     featured: Boolean(body.featured),
+    status: body.status || "published",
     published: body.published || new Date().toISOString(),
   };
 
   const index = items.findIndex((item: any) => item.id === newItem.id);
 
   if (index >= 0) {
-    items[index] = newItem;
+    items[index] = {
+      ...items[index],
+      ...newItem,
+    };
   } else {
     items.unshift(newItem);
   }

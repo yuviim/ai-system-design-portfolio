@@ -1,128 +1,64 @@
-import { Header } from "../../../components/layout/Header";
-import { ArrowRight } from "lucide-react";
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import { Header } from "../../../components/layout/Header";
 
-type ContentItem = {
-  id: string;
-  type: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  series: string;
-  path?: string;
-  episode?: number | null;
-  slug?: string;
-  order?: number;
-};
-
-const pathTitles: Record<string, string> = {
-  "know-exasol": "Know Exasol",
-  "modern-ai-data-platform": "Modern AI Data Platform",
-  "engineering-sovereign-ai-systems": "Engineering Sovereign AI Systems",
-  "engineering-agentic-enterprise-systems": "Engineering Agentic Enterprise Systems",
-  nexusiq: "NexusIQ",
-  "architecture-notes": "Architecture Notes",
-};
-
-function getContent(): ContentItem[] {
-  const filePath = path.join(process.cwd(), "data", "content.json");
-  if (!fs.existsSync(filePath)) return [];
-  return JSON.parse(fs.readFileSync(filePath, "utf8"));
-}
-
-export default async function LearningPathPage({
-  params,
-}: {
+type PageProps = {
   params: Promise<{ path: string }>;
-}) {
-  const { path: pathId } = await params;
-  const title = pathTitles[pathId];
+};
 
-  if (!title) notFound();
+export default async function ArticlePage({ params }: PageProps) {
+  const { path: slug } = await params;
 
-  const items = getContent().filter((item) => item.path === pathId);
+  const articleDir = path.join(process.cwd(), "content", "articles", slug);
+  const metadataPath = path.join(articleDir, "metadata.json");
+  const contentPath = path.join(articleDir, "index.mdx");
 
-  const grouped = Object.values(
-    items.reduce<Record<string, ContentItem[]>>((acc, item) => {
-      const key = item.slug || item.id;
-      if (!acc[key]) acc[key] = [];
-      acc[key].push(item);
-      return acc;
-    }, {})
-  ).sort((a, b) => (a[0].order || 999) - (b[0].order || 999));
+  if (!fs.existsSync(metadataPath) || !fs.existsSync(contentPath)) {
+    notFound();
+  }
+
+  const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf8"));
+  const content = fs.readFileSync(contentPath, "utf8");
 
   return (
-    <main className="min-h-screen bg-[#f6f8fb] text-slate-950">
+    <main className="min-h-screen bg-white text-slate-950">
       <Header />
 
-      <section className="mx-auto max-w-[1500px] px-8 py-16">
-        <a href="/library" className="text-sm font-semibold text-blue-600">
-          ← Back to Architecture Library
-        </a>
-
-        <p className="mt-10 mb-4 text-xs font-semibold uppercase tracking-[0.26em] text-blue-600">
-          Learning Path
+      <article className="mx-auto max-w-[1100px] px-8 py-16">
+        <p className="mb-5 text-xs font-bold uppercase tracking-[0.32em] text-blue-600">
+          {metadata.series || metadata.category || "Architecture"}
         </p>
 
-        <h1 className="max-w-4xl text-5xl font-medium leading-[1.08] tracking-[-0.035em]">
-          {title}
+        <h1 className="text-6xl font-semibold leading-[0.95] tracking-[-0.07em] md:text-7xl">
+          {metadata.title}
         </h1>
 
-        <p className="mt-5 text-lg text-slate-600">
-          {grouped.length} topics
-        </p>
+        {metadata.description && (
+          <p className="mt-8 max-w-3xl text-xl font-medium leading-9 text-slate-700">
+            {metadata.description}
+          </p>
+        )}
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {grouped.map((resources) => {
-            const first = resources[0];
-            const hero = resources.find((item) => item.thumbnail) || first;
-
-            return (
-              <a
-                key={first.slug || first.id}
-                href={`/library/${pathId}/${first.slug}`}
-                className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-blue-200"
-              >
-                {hero.thumbnail && (
-                  <img
-                    src={hero.thumbnail}
-                    alt={first.title}
-                    className="mb-6 aspect-video w-full rounded-2xl object-cover"
-                  />
-                )}
-
-                <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm font-semibold text-blue-600">
-                    {first.episode !== null && first.episode !== undefined
-                      ? `Episode ${first.episode}`
-                      : "Topic"}
-                  </p>
-
-                  <span className="rounded-full bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
-                    {resources.length} resources
-                  </span>
-                </div>
-
-                <h2 className="text-2xl font-medium tracking-[-0.025em]">
-                  {first.title}
-                </h2>
-
-                {first.description && (
-                  <p className="mt-4 line-clamp-2 text-sm leading-6 text-slate-600">
-                    {first.description}
-                  </p>
-                )}
-
-                <p className="mt-6 flex items-center gap-2 text-sm font-semibold text-blue-600">
-                  Open topic <ArrowRight className="h-4 w-4" />
-                </p>
-              </a>
-            );
-          })}
+        <div className="mt-6 text-sm font-bold text-slate-500">
+          {metadata.published} · {metadata.readingTime} · {metadata.type || "Article"}
         </div>
-      </section>
+
+        {metadata.thumbnail && (
+          <div className="mt-12 overflow-hidden rounded-[36px] border border-slate-200 bg-slate-50">
+            <img
+              src={metadata.thumbnail}
+              alt={metadata.title}
+              className="w-full object-cover"
+            />
+          </div>
+        )}
+
+        <div
+          className="prose prose-slate mt-14 max-w-none prose-headings:tracking-[-0.04em] prose-p:text-lg prose-p:leading-9"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      </article>
     </main>
   );
 }

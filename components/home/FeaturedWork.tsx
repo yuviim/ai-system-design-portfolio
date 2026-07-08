@@ -1,45 +1,65 @@
-import { featuredWork } from "@/data/site";
+import Link from "next/link";
+import { getContentHref } from "../../lib/urls";
 
-export function FeaturedWork() {
+type FeaturedItem = {
+  id: string;
+  title: string;
+  description: string;
+  series: string;
+  slug?: string;
+  readingTime?: string;
+  type?: string;
+  thumbnail?: string;
+  image?: string;
+  date?: string;
+};
+
+export function FeaturedArticle({ item }: { item?: FeaturedItem | null }) {
+  if (!item) return null;
+
+  const imageSrc =
+    item.thumbnail ||
+    item.image ||
+    "/images/series/enterprise-agentic-ai.png";
+
+  const href = getContentHref(item);
+
   return (
-    <section id="work" className="mx-auto max-w-[1500px] px-8 py-10">
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-black tracking-[-0.04em]">
-          Selected Engineering Work
-        </h2>
-        <a href="#" className="text-sm font-black text-blue-600">
-          View all work →
-        </a>
-      </div>
+    <section className="mx-auto max-w-[1500px] px-8 pb-24">
+      <div className="grid gap-10 overflow-hidden rounded-[36px] border border-slate-200 bg-white/95 p-8 shadow-sm backdrop-blur lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
+        <div className="flex h-[340px] items-center justify-center overflow-hidden rounded-[28px] bg-slate-50">
+        <img
+            src={imageSrc}
+            alt={item.title}
+            className="h-[300px] w-auto rounded-xl shadow-xl transition duration-300 group-hover:scale-[1.02]"
+        />
+        </div>
 
-      <div className="grid gap-5 lg:grid-cols-4">
-        {featuredWork.map((work) => (
-          <article
-            key={work.title}
-            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+        <div>
+          <p className="mb-6 text-xs font-bold uppercase tracking-[0.32em] text-blue-600">
+            Featured This Week
+          </p>
+
+          <h2 className="max-w-4xl text-5xl font-semibold leading-tight tracking-[-0.055em] text-slate-950">
+            {item.title}
+          </h2>
+
+          <p className="mt-4 text-sm font-bold text-slate-500">
+            {item.series} ・ Jul 3, 2026 ・ {item.readingTime || "3 min read"} ・{" "}
+            {item.type || "Article"}
+          </p>
+
+          <p className="mt-7 max-w-4xl text-lg font-medium leading-8 text-slate-700">
+            {item.description}
+          </p>
+
+          <Link
+            href={href}
+            className="mt-8 inline-flex rounded-2xl bg-blue-600 px-7 py-4 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
           >
-            <div className="mb-5 flex items-start justify-between">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-2xl text-blue-600">
-                ▧
-              </div>
-              <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
-                {work.label}
-              </span>
-            </div>
-
-            <h3 className="text-2xl font-black tracking-[-0.045em]">
-              {work.title}
-            </h3>
-
-            <p className="mt-4 min-h-28 text-sm leading-6 text-slate-600">
-              {work.description}
-            </p>
-
-            <a href="#" className="mt-6 inline-block text-sm font-black text-blue-600">
-              Explore →
-            </a>
-          </article>
-        ))}
+            Read featured article →
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -1,38 +1,97 @@
-import type { ContentItem } from "@/types/content";
+export interface Series {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  href: string;
+  accent: string;
+  topics: string[];
+}
 
-export const series: ContentItem[] = [
+export const series: Series[] = [
   {
-    slug: "modern-ai-data-platform-architecture",
-    title: "Modern AI Data Platform Architecture",
+    id: "modern-ai-data-platforms",
+    slug: "modern-ai-data-platforms",
+    title: "Modern AI Data Platforms",
     description:
-      "A flagship educational series on warehouses, lakehouses, federation, governance, and AI execution.",
-    category: "series",
-    status: "published",
-    published: "2026-05-01",
-    featured: true,
-    tags: ["Data Platforms", "Enterprise AI", "Architecture"],
-    youtube: "",
+      "Warehouses • Lakehouses • Federation • MPP",
+    image: "/images/series/modern-ai-data-platforms.png",
+    href: "/library/modern-ai-data-platform",
+    accent: "blue",
+    topics: [
+      "Warehouses",
+      "Lakehouses",
+      "Federation",
+      "MPP",
+    ],
   },
+
   {
-    slug: "engineering-sovereign-ai-systems",
-    title: "Engineering Sovereign AI Systems",
+    id: "enterprise-ai-systems",
+    slug: "enterprise-ai-systems",
+    title: "Enterprise AI Systems",
     description:
-      "Architecture-first exploration of trust boundaries, identity, data residency, AI gateways, and secure RAG.",
-    category: "series",
-    status: "published",
-    published: "2026-06-20",
-    featured: true,
-    tags: ["AI Sovereignty", "Governance", "Enterprise AI"],
+      "AI Gateways • Policy Engines • Audit • Governance",
+    image: "/images/series/enterprise-ai-systems.png",
+    href: "/library",
+    accent: "purple",
+    topics: [
+      "AI Gateways",
+      "Policy",
+      "Audit",
+      "Governance",
+    ],
   },
+
   {
+    id: "enterprise-agentic-ai",
+    slug: "enterprise-agentic-ai",
+    title: "Agentic AI Architecture",
+    description:
+      "Agents • MCP • Tool Use • Orchestration",
+    image: "/images/series/enterprise-agentic-ai.png",
+    href: "/library/building-enterprise-agentic-ai-systems",
+    accent: "teal",
+    topics: [
+      "Agents",
+      "MCP",
+      "Tool Use",
+      "Orchestration",
+    ],
+  },
+
+  {
+    id: "sovereign-ai-systems",
+    slug: "sovereign-ai-systems",
+    title: "Sovereign AI Systems",
+    description:
+      "Trust Boundaries • Residency • Compliance • Control",
+    image: "/images/series/sovereign-ai-systems.png",
+    href: "/library/engineering-sovereign-ai-systems",
+    accent: "blue",
+    topics: [
+      "Trust",
+      "Residency",
+      "Compliance",
+      "Control",
+    ],
+  },
+
+  {
+    id: "know-exasol",
     slug: "know-exasol",
     title: "Know Exasol",
     description:
-      "Technical education series covering Exasol internals, MPP, columnar storage, optimizer, compiler, and AI integrations.",
-    category: "series",
-    status: "published",
-    published: "2026-05-01",
-    featured: true,
-    tags: ["Exasol", "MPP", "Data Platforms"],
+      "MPP • Optimizer • Execution • Memory • Federation",
+    image: "/images/series/know-exasol.png",
+    href: "/library/know-exasol",
+    accent: "green",
+    topics: [
+      "MPP",
+      "Optimizer",
+      "Execution",
+      "Federation",
+    ],
   },
 ];
